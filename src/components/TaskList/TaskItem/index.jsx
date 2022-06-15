@@ -23,14 +23,26 @@ const TaskItem = ({ task }) => {
       icon: "warning",
       showCancelButton: true,
       cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
       confirmButtonText: "Sim, remova!",
       confirmButtonColor: "#3085d6",
     }) .then ( async (willDelete) => {
       if (willDelete.value) {
         await removeTask(_id);
-        Swal.fire("Deletado!", "Sua Task foi removida com sucesso!", "success");
+        Swal.fire({
+          title: "Deletado!",
+          html: "Sua Task foi removida com sucesso!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } else {
-        Swal.fire("Cancelado!", "Sua Task esta a salvo 😃", "error");
+        Swal.fire({
+          title: "Cancelado!",
+          html: "Sua Task esta a salvo 😃",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     })
 
@@ -44,7 +56,8 @@ const TaskItem = ({ task }) => {
       title: "Tarefa atualizada!",
       html: "Sua tarefa foi atualizada com sucesso!",
       icon: "success",
-      timer: 3000,
+      showConfirmButton: false,
+      timer: 2000,
     })
   };
 

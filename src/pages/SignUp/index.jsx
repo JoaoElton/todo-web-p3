@@ -27,18 +27,24 @@ const SignUp = () => {
       return Swal.fire({
         html: "dados pendentes",
         icon: "warning",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
     if (password !== confirmation) {
       return Swal.fire({
         html: "As senhas não conferem",
         icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
     if (age < 18) {
       return Swal.fire({ 
         html: "Você precisa ser maior de 18 anos",
         icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
 
@@ -61,12 +67,16 @@ const SignUp = () => {
       Swal.fire({
         title: "casdastro realizado com sucesso",
         icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
       });
       navigate("/");
     } catch (error) {
       Swal.fire({
         html: "não foi possivel adicionar o usuario",
         icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
   } 

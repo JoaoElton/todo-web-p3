@@ -27,13 +27,19 @@ const Home = () => {
           Swal.fire({
             title: "saindo!",
             text: `até logo ${user.name} 👋`,
+            showConfirmButton: false,
             timer: 2000,
           });
           await signOut();
           navigate("/");         
 
         } else {
-          Swal.fire("Cancelado!", `feliz por continuar aqui ${user.name} 😁`);
+          Swal.fire({
+            title: "Cancelado!",
+            html: `feliz por continuar aqui ${user.name} 😁`,
+            showConfirmButton: false,
+            timer: 2000,
+          });
         }
       })
   };

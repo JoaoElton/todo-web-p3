@@ -28,6 +28,8 @@ export const TaskForm = () => {
       title: 'Task adicionada!',
       html: 'Sua task foi adicionada com sucesso!', 
       icon: 'success',
+      showConfirmButton: false,
+      timer: 2000,
     })
   };
 

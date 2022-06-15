@@ -29,19 +29,56 @@ const SignIn = () => {
     const password = passwordInputRef.current.value.trim();
 
     if (!email || !password) {
-      return Swal.fire("Erro", "Preencha os campos para efetuar login", "error");
+      return Swal.fire({
+        html: "Preencha todos os campos para continuar",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      
     }
     try {
-      await signIn({ email, password });
-       Swal.fire({
+
+      const response = await fetch("http://localhost:3333/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+
+      if (data.user) {
+        await signIn({ email, password });
+        Swal.fire({
           title: "Bem vindo",
           html: "Você está logado",
           icon: "success",
+          showConfirmButton: false,
           timer: 2000,
         })
-    } catch (error) {}
+        navigate("/home");
+        
+      } else{
+        Swal.fire({
+          title: "Erro",
+          html: "Usuário não encontrado",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+      })
+      }
 
-    navigate("/home");
+    } catch (error) {
+      Swal.fire({
+        title: "Erro",
+        html: "Erro ao efetuar login",
+        icon: "error",
+        timer: 2000,
+      });
+    }
+
+ 
   };
 
   return (
