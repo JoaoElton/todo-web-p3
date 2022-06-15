@@ -1,6 +1,7 @@
 import { useContext, useRef } from "react";
 import { TasksContext } from "../../providers/TaskProvider";
 import styles from "./TaskForm.module.scss";
+import Swal from 'sweetalert2'
 
 export const TaskForm = () => {
   const { addTask } = useContext(TasksContext);
@@ -23,13 +24,19 @@ export const TaskForm = () => {
 
     addTask(task);
     input.value = "";
+    Swal.fire({
+      title: 'Task adicionada!',
+      html: 'Sua task foi adicionada com sucesso!', 
+      icon: 'success',
+    })
   };
 
+ 
   return (
     <div className={styles.Container}>
       <form onSubmit={handleSubmit}>
         <input type="text" ref={inputRef} />
-        <button type="submit">Criar</button>
+        <button type="submit" >Criar</button>
       </form>
     </div>
   );

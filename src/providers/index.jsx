@@ -1,8 +1,12 @@
 import { AuthProvider } from "./AuthProvider";
 import { TaskProvider } from "./TaskProvider";
+import { UserProvider } from "./UserProvider";
 
 export const AppProvider = ({ children }) => (
-  <AuthProvider>
-    <TaskProvider>{children}</TaskProvider>
-  </AuthProvider>
+  <>
+    <UserProvider/>
+    <AuthProvider>
+      <TaskProvider>{children}</TaskProvider>
+    </AuthProvider>
+  </>
 );

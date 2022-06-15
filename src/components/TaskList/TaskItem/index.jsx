@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { useTasks } from "../../../hooks/useTasks";
 import styles from "./TaskItem.module.scss";
 
@@ -15,13 +16,36 @@ const TaskItem = ({ task }) => {
   };
 
   const handleRemove = () => {
-    removeTask(_id);
-  };
+ 
+    Swal.fire({
+      title: "Você tem certeza?",
+      text: "Você não poderá reverter isso!",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, remova!",
+      confirmButtonColor: "#3085d6",
+    }) .then ( async (willDelete) => {
+      if (willDelete.value) {
+        await removeTask(_id);
+        Swal.fire("Deletado!", "Sua Task foi removida com sucesso!", "success");
+      } else {
+        Swal.fire("Cancelado!", "Sua Task esta a salvo 😃", "error");
+      }
+    })
+
+  }
 
   const handleSave = () => {
     const modifiedTask = { ...task, description: name };
     updateTask(modifiedTask);
     setEdit(false);
+    Swal.fire({
+      title: "Tarefa atualizada!",
+      html: "Sua tarefa foi atualizada com sucesso!",
+      icon: "success",
+      timer: 3000,
+    })
   };
 
   const renderDescription = () => {

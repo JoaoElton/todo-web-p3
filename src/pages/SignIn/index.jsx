@@ -2,11 +2,13 @@ import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Template from "../../containers/Template";
 import { useAuth } from "../../hooks/useAuth";
-
 import styles from "./SignIn.module.scss";
+import Swal from "sweetalert2";
 
 const SignIn = () => {
   const { signIn, isAuthenticated } = useAuth();
+  const { signOut, user } = useAuth();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,13 +29,17 @@ const SignIn = () => {
     const password = passwordInputRef.current.value.trim();
 
     if (!email || !password) {
-      return;
+      return Swal.fire("Erro", "Preencha os campos para efetuar login", "error");
     }
     try {
       await signIn({ email, password });
-    } catch (error) {
-      alert(" Login ou senha inválidos");
-    }
+       Swal.fire({
+          title: "Bem vindo",
+          html: "Você está logado",
+          icon: "success",
+          timer: 2000,
+        })
+    } catch (error) {}
 
     navigate("/home");
   };

@@ -1,26 +1,75 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Template from "../../containers/Template";
 
 import styles from "./SignUp.module.scss";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const nameInputRef = useRef();
   const ageInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const passwordConfirmationInputRef = useRef();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.table({
-      name: nameInputRef.current.value,
-      age: ageInputRef.current.value,
-      email: emailInputRef.current.value,
-      password: passwordInputRef.current.value,
-      confirmation: passwordConfirmationInputRef.current.value,
-    });
-  };
+    
+    const name = nameInputRef.current.value.trim();
+    const age = ageInputRef.current.value.trim();
+    const email = emailInputRef.current.value.trim();
+    const password = passwordInputRef.current.value.trim();
+    const confirmation = passwordConfirmationInputRef.current.value.trim();
+    
+    if (!name || !age || !email || !password || !confirmation) {
+      return Swal.fire({
+        html: "dados pendentes",
+        icon: "warning",
+      });
+    }
+    if (password !== confirmation) {
+      return Swal.fire({
+        html: "As senhas não conferem",
+        icon: "error",
+      });
+    }
+    if (age < 18) {
+      return Swal.fire({ 
+        html: "Você precisa ser maior de 18 anos",
+        icon: "error",
+      });
+    }
+
+    try {
+      const user = { name, age, email, password };
+      const response = await fetch("http://localhost:3333/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await response.json();
+      if (data.error) {
+        return Swal.fire({
+          html: data.error,
+          icon: "error",
+        });
+      }
+      Swal.fire({
+        title: "casdastro realizado com sucesso",
+        icon: "success",
+      });
+      navigate("/");
+    } catch (error) {
+      Swal.fire({
+        html: "não foi possivel adicionar o usuario",
+        icon: "error",
+      });
+    }
+  } 
 
   return (
     <Template title="Cadastrar-se">
@@ -69,6 +118,6 @@ const SignUp = () => {
       </form>
     </Template>
   );
-};
+}
 
 export default SignUp;
