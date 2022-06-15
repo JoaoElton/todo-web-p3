@@ -24,13 +24,21 @@ export const TaskForm = () => {
 
     addTask(task);
     input.value = "";
-    Swal.fire({
-      title: 'Task adicionada!',
-      html: 'Sua task foi adicionada com sucesso!', 
-      icon: 'success',
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
       showConfirmButton: false,
       timer: 2000,
-    })
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      }
+    });
+    Toast.fire({
+      icon: "success",
+      iconColor: "#00FF00",
+      title: "Tarefa adicionada com sucesso",
+    });
   };
 
  

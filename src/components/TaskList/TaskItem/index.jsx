@@ -29,19 +29,37 @@ const TaskItem = ({ task }) => {
     }) .then ( async (willDelete) => {
       if (willDelete.value) {
         await removeTask(_id);
-        Swal.fire({
-          title: "Deletado!",
-          html: "Sua Task foi removida com sucesso!",
-          icon: "success",
+       const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom-end",
           showConfirmButton: false,
           timer: 2000,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          }
         });
+        Toast.fire({
+          icon: "success",
+          iconColor: "#00FF00",
+          title: "Tarefa removida com sucesso",
+        });
+
       } else {
-        Swal.fire({
-          title: "Cancelado!",
-          html: "Sua Task esta a salvo 😃",
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom-end",
           showConfirmButton: false,
           timer: 2000,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          }
+        });
+        Toast.fire({
+          icon: "error",
+          iconColor: "#B22222",
+          title: "Sua tarefa esta a salvo 😁",
         });
       }
     })
@@ -52,13 +70,22 @@ const TaskItem = ({ task }) => {
     const modifiedTask = { ...task, description: name };
     updateTask(modifiedTask);
     setEdit(false);
-    Swal.fire({
-      title: "Tarefa atualizada!",
-      html: "Sua tarefa foi atualizada com sucesso!",
-      icon: "success",
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-end",
       showConfirmButton: false,
       timer: 2000,
-    })
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      }
+    });
+    Toast.fire({
+      icon: "success",
+      iconColor: "#00FF00",
+      title: "Tarefa atualizada com sucesso",
+    });
+    
   };
 
   const renderDescription = () => {

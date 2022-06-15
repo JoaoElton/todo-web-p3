@@ -5,7 +5,7 @@ import Template from "../../containers/Template";
 
 import styles from "./SignUp.module.scss";
 
-const SignUp = () => {
+const  SignUp = () => {
   const navigate = useNavigate();
 
   const nameInputRef = useRef();
@@ -23,6 +23,7 @@ const SignUp = () => {
     const password = passwordInputRef.current.value.trim();
     const confirmation = passwordConfirmationInputRef.current.value.trim();
     
+
     if (!name || !age || !email || !password || !confirmation) {
       return Swal.fire({
         html: "dados pendentes",
@@ -31,6 +32,7 @@ const SignUp = () => {
         timer: 2000,
       });
     }
+
     if (password !== confirmation) {
       return Swal.fire({
         html: "As senhas não conferem",
@@ -47,7 +49,7 @@ const SignUp = () => {
         timer: 2000,
       });
     }
-
+  
     try {
       const user = { name, age, email, password };
       const response = await fetch("http://localhost:3333/users", {
@@ -60,14 +62,18 @@ const SignUp = () => {
       const data = await response.json();
       if (data.error) {
         return Swal.fire({
-          html: data.error,
+          html: "Email já cadastrado",
           icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
         });
+        
       }
       Swal.fire({
         title: "casdastro realizado com sucesso",
         icon: "success",
         showConfirmButton: false,
+        timerProgressBar: true,
         timer: 2000,
       });
       navigate("/");

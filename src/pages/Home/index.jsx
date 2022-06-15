@@ -28,6 +28,7 @@ const Home = () => {
             title: "saindo!",
             text: `até logo ${user.name} 👋`,
             showConfirmButton: false,
+            timerProgressBar: true,
             timer: 2000,
           });
           await signOut();

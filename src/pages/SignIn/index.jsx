@@ -51,24 +51,26 @@ const SignIn = () => {
       if (data.user) {
         await signIn({ email, password });
         Swal.fire({
-          title: "Bem vindo",
-          html: "Você está logado",
+          title: `Bem vindo`,
+          html: `Você está logado no usuário: ${data.user.name}`,
           icon: "success",
           showConfirmButton: false,
+          timerProgressBar: true,
           timer: 2000,
+
         })
         navigate("/home");
-        
-      } else{
+      } 
+  
+      else if (email || password !== data.email || data.password) {
         Swal.fire({
-          title: "Erro",
-          html: "Usuário não encontrado",
+          title: "Erro ao logar",
+          html: "e-mail ou senha incorreto",
           icon: "error",
           showConfirmButton: false,
           timer: 2000,
-      })
+        });
       }
-
     } catch (error) {
       Swal.fire({
         title: "Erro",
